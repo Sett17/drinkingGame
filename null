@@ -1,0 +1,16 @@
+
+[1m[37m===[39m Deploying to 'drinkingapp-4376b'...[22m
+
+[1m[36mi [39m[22m deploying [1mhosting[22m
+[1m[36mi  hosting[drinkingapp-4376b]:[39m[22m beginning deploy...
+[1m[36mi  hosting[drinkingapp-4376b]:[39m[22m found 24 files in [1mbuild[22m
+[1m[32m+  hosting[drinkingapp-4376b]:[39m[22m file upload complete
+[1m[36mi  hosting[drinkingapp-4376b]:[39m[22m finalizing version...
+[1m[32m+  hosting[drinkingapp-4376b]:[39m[22m version finalized
+[1m[36mi  hosting[drinkingapp-4376b]:[39m[22m releasing new version...
+[1m[32m+  hosting[drinkingapp-4376b]:[39m[22m release complete
+
+[1m[32m+ [39m[22m [1m[4mDeploy complete![24m[22m
+
+[1mProject Console:[22m https://console.firebase.google.com/project/drinkingapp-4376b/overview
+[1mHosting URL:[22m https://drinkingapp-4376b.web.app

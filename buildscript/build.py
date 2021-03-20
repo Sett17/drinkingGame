@@ -1,38 +1,57 @@
+import glob
 import os
 import re
 import sys
 from datetime import datetime
+from distutils.dir_util import copy_tree
 from pathlib import Path
 
 import psutil
 from jsmin import jsmin
 
-removeOutput = ''
-removeError = ''
+removeOutput = ' > null'
+removeError = ' 2> null'
+combineCmds = ' && '
 if psutil.Process(os.getppid()).name() == 'bash':
     removeOutput = ' > /dev/null'
     removeError = ' 2> /dev/null'
+    combineCmds = ' && '
 elif psutil.Process(os.getppid()).name() == 'powershell.exe':
     removeOutput = ' > $null'
     removeError = ' 2> $null'
+    combineCmds = ' ; '
 elif psutil.Process(os.getppid()).name() == 'cmd.exe':
     removeOutput = ' > null'
     removeError = ' 2> null'
+    combineCmds = ' && '
 
 
 def doPrebuild():
     print('\nPrebuild:')
-    if not os.path.exists('./build'):
-        print(f'\x1b[4G\x1b[31m./build does not exist.\x1b[90m\n\x1b[4GCreating it now...\x1b[0m')
-        os.mkdir('./build')
+    if not os.path.exists('../build'):
+        print(f'\x1b[4G\x1b[31m../build does not exist.\x1b[90m\n\x1b[4GCreating it now...\x1b[0m')
+        os.mkdir('../build')
     else:
-        print('\x1b[4G\x1b[90mClearing out ./build...\x1b[0m')
-        os.popen('rm -rf ./build/*').read()
-    os.popen('cp -rf ./dev/* ./build/').read()
-    print('\x1b[4G\x1b[32mCopied all files to ./build\x1b[0m')
-    print('\x1b[4GGenerating Service Worker: \x1b[38;5;147mworkbox generateSW workboxBuild.js\x1b[90m')
+        print('\x1b[4G\x1b[90mClearing out ../build...\x1b[0m')
+        dirToDeleteAfter = []
+        for f in glob.glob('../build/**/*', recursive=True):
+            if os.path.isfile(f):
+                os.remove(f)
+            else:
+                dirToDeleteAfter += [f]
+        for f in dirToDeleteAfter:
+            os.rmdir(f)
+    copy_tree('../dev/', '../build/')
+    print('\x1b[4G\x1b[32mCopied all files to ../build\x1b[0m')
+    if os.path.exists('../build/sw.js'):
+        print('\x1b[31mDeleting dev service Workers\x1b[0m')
+        for file in glob.glob('../build/sw.js*') + glob.glob('../build/workbox*'):
+            os.remove(file)
+            print('\x1b[90m\x1b[2Gdeleted ' + '/'.join(file.split("\\")[:-1]) + '\x1b[32m/' + file.split("\\")[
+                -1] + '\x1b[0m')
+    print('\x1b[4GGenerating build Service Worker: \x1b[38;5;147mworkbox generateSW workboxBuild.js\x1b[90m')
     os.popen('workbox generateSW workboxBuild.js').read()
-    print('\x1b[4G\x1b[32mGenerated SW files in ./build\x1b[0m')
+    print('\x1b[4G\x1b[32mGenerated SW files in ../build\x1b[0m')
 
 
 def doRefactor():
@@ -74,7 +93,7 @@ def doGit():
 
 def doDeploy():
     print('\nDeploying:')
-    if not os.path.exists('firebase.json'):
+    if not os.path.exists('../firebase.json'):
         print('\x1b[31m\x1b[4GFirebase isn\'t configured!\x1b[0m')
         valid = {"yes": True, "y": True, "ye": True, "no": False, "n": False}
         executeFirebase = False
@@ -103,7 +122,7 @@ def doDeploy():
             print('\x1b[31m\x1b[4GSkipping new commit, because deployment failed')
             raise RuntimeError('\nCan\'t deploy without Firebase beeing initialized!')
     print('\x1b[4GExecuting \x1b[38;5;147mfirebase deploy\x1b[0m... \x1b[90m(output supressed)')
-    deployExitCode = os.system('firebase deploy' + removeOutput)
+    deployExitCode = os.system('cd .. ' + combineCmds + ' firebase deploy' + removeOutput)
     if deployExitCode == 0:
         print('\x1b[6G\x1b[32mSuccessfully executed \x1b[38;5;147mfirebase deploy\x1b[0m')
     else:
@@ -118,18 +137,18 @@ if __name__ == "__main__":
 
     allFiles = [
         os.path.join(root, name)
-        for root, dirs, files in os.walk('./build')
+        for root, dirs, files in os.walk('../build')
         for name in files
     ]
     compressFiles = [
         os.path.join(root, name)
-        for root, dirs, files in os.walk('./build')
+        for root, dirs, files in os.walk('../build')
         for name in files
         if name.endswith(('.html', '.htm', '.compo', '.css', '.js'))
     ]
     htmlFiles = [
         os.path.join(root, name)
-        for root, dirs, files in os.walk('./build')
+        for root, dirs, files in os.walk('../build')
         for name in files
         if name.endswith(('.html', '.htm'))
     ]
