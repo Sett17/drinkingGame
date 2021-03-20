@@ -35,22 +35,3 @@ Für historische Commits und alten Code, schaue in [dieser rep](https://github.c
 
 ## Mitwirken
 Du bist gerne zum mitwirken eingeladen! Mache dafür ein Pull Request mit der ergänzten [cards.js](dev/assets/cards.js) oder schlag eine Idee in [diesem form](https://docs.google.com/forms/d/e/1FAIpQLSejdu8sNK8tI5Y3IP0LySg17WXdkxn9s_UeRKLBvFt3kKV_Vg/viewform) vor.
-
-## Run
-Du kannst entweder die live.py starten (benötigt weitere bibliotheken) oder einen webserver im `/dev` ordner starten.
-Known-To-Work Beispiel:
-```bash
-cd /path/to/project/dev/
-python3 -m http.server
-```
-
-
-## Build
-Getestet auf Linux (WSL) und Windows
-
-Zum bauen und deployen:
-```bash
-pip3 install -r requirements.txt
-python3 build.py
-```
-**IMPORTANT** Benutze nicht `py`/`py3`, du musst `python`/`python3` benutzen.
