@@ -25,4 +25,3 @@ oninput="options.updateModeArg(this)"><div id="options-argSliderValue">30</div><
         </div>
     </div>
 </div>
-</div>
