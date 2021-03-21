@@ -5,7 +5,9 @@ const preGame = './compos/pregame.compo'
 const playPage = './compos/play.compo'
 const optPage = './compos/options.compo'
 let cardCompo = ''
-fetch('./compos/card.compo').then((res) => res.text()).then((data) => { cardCompo = data })
+fetch('./compos/card.compo').then((res) => res.text()).then((data) => {
+    cardCompo = data
+})
 const sess = new Session()
 let currPage
 init(window.location.search.match(/(?<=([?&])page=)\w+/g))
@@ -24,7 +26,9 @@ function init(site) {
             break
         case 'pregame':
             loadCompo(preGame).then((_) => {
-                if (isMobile()) { document.querySelector('#pregame-addPlayerBtn').classList.add('pregame-hidden') }
+                if (isMobile()) {
+                    document.querySelector('#pregame-addPlayerBtn').classList.add('pregame-hidden')
+                }
                 updatePlayerList()
             })
             currPage = preGame
@@ -41,10 +45,19 @@ function init(site) {
                     }, 20)
                 })
                 currPage = playPage
-            } else { changePage('pregame') }
+            } else {
+                changePage('pregame')
+            }
             break
         case 'options':
-            loadCompo(optPage).then(_ => options.updateViews())
+            loadCompo(optPage).then(_ => {
+                if (isMobile()) { // change css a bit if we're on mobile
+                    document.querySelectorAll('.options-wrapperInside').forEach(el => el.style.flexDirection = 'column')
+                } else {
+                    document.querySelectorAll('.options-wrapperInside').forEach(el => el.style.flexDirection = 'row')
+                }
+                options.update()
+            })
             break
         default:
             changePage('startmenu')
@@ -57,6 +70,7 @@ function newCard() {
     cardCounter.incr()
     addCard(chooseCard())
 }
+
 let currCard = {}
 
 function chooseCard() {
@@ -67,7 +81,8 @@ function chooseCard() {
 
 function addCard(card) {
     if (currPage === playPage) {
-        while (document.querySelector('#card') === null) {}
+        while (document.querySelector('#card') === null) {
+        }
         document.querySelector('#card').outerHTML = makeCard(card)
         document.querySelector('#card').style.transition = 'all 0ms'
         document.querySelector('#card').style.transform = `matrix(0.01, 0, 0, 0.01, 0, ${offsetY})`
@@ -76,30 +91,41 @@ function addCard(card) {
         setTimeout(() => {
             document.querySelector('#card').style.transform = `matrix(1, 0, 0, 1, 0, ${offsetY})`
             document.querySelector('#card').style.opacity = '1.0'
-            setInterval(() => { addInteraction(document.querySelector('#card')) }, animTimeIn)
+            setInterval(() => {
+                addInteraction(document.querySelector('#card'))
+            }, animTimeIn)
         }, 20)
     }
 }
 
 function makeCard(use) {
     let card = cardCompo
-    const difficulty = options.getDifficulty()
+    const difficulty = options.difficulty.get()
     const mul = difficulty === 0 ? .5 : difficulty === 1 ? 1 : 2.24
     try {
-        if (cardCounter.get() === -1) { throw 'Game ending' }
+        if (cardCounter.get() === -1) {
+            throw 'Game ending'
+        }
         let choosenPlayer = 'Alle'
-        if (!use.all) { choosenPlayer = playerList.rng() }
+        if (!use.all) {
+            choosenPlayer = playerList.rng()
+        }
         document.querySelector('#play-name').innerHTML = choosenPlayer
         try {
             let cardPlayer1 = playerList.rng()
-            while (cardPlayer1 === choosenPlayer) { cardPlayer1 = playerList.rng() }
+            while (cardPlayer1 === choosenPlayer) {
+                cardPlayer1 = playerList.rng()
+            }
             use.text = use.text.replace('[NAME1]', cardPlayer1)
-        } catch (_) {}
+        } catch (_) {
+        }
         card = card.replace('*TITLE*', use.title).replace('*TEXT*', use.text).replace('*SET*', use.set).replace('*COLOR*', `hsl(${120 - 60 * difficulty}, 90%, 64%)`)
         if (use.sips >= 0) {
             console.log(`sips: ${use.sips} * ${mul} = ${use.sips * mul}`)
             card = card.replace('*SIPS*', Math.ceil(use.sips * mul))
-        } else { card = card.replace('*SIPS*', '&#x221e;') }
+        } else {
+            card = card.replace('*SIPS*', '&#x221e;')
+        }
     } catch (error) {
         card = card.replace('*TITLE*', 'Das wars').replace('*TEXT*', 'Danke fürs Spielen!<br>Wische einfach diese Karte weg.').replace('*SET*', 'Ehre').replace('*SIPS*', '&#x221e;').replace('*COLOR*', 'url(#rainbow)')
         document.querySelector('#play-name').innerHTML = 'Alle'
@@ -110,7 +136,7 @@ function makeCard(use) {
 }
 
 function addPlayer() {
-    let player = { name: document.querySelector('#pregame-playernameInp').value.trim().capitalizeFirst(), }
+    let player = {name: document.querySelector('#pregame-playernameInp').value.trim().capitalizeFirst(),}
     if (player.name.length > 1) {
         playerList.add(player)
         document.querySelector('#pregame-playernameInp').value = ''
@@ -118,7 +144,9 @@ function addPlayer() {
     }
 }
 
-function removePlayer(el) { playerList.remove({ name: el.innerHTML }) }
+function removePlayer(el) {
+    playerList.remove({name: el.innerHTML})
+}
 
 function inpFocusIn() {
     if (isMobile()) {
@@ -142,14 +170,20 @@ function loadCompo(filePath) {
         window.history.go(1)
         return
     }
-    return fetch(filePath).then((res) => res.text()).then((data) => { document.querySelector('#root').innerHTML = data })
+    return fetch(filePath).then((res) => res.text()).then((data) => {
+        document.querySelector('#root').innerHTML = data
+    })
 }
 
-function changePage(pageName) { window.location.search = `?page=${pageName}` }
+function changePage(pageName) {
+    window.location.search = `?page=${pageName}`
+}
 
 function updatePlayerList() {
     if (playerList.get()) {
         document.querySelector('#pregame-playerlist').innerHTML = ''
-        playerList.get().forEach((el) => { document.querySelector('#pregame-playerlist').innerHTML += `<span onclick="removePlayer(this)">${el.name}</span>` })
+        playerList.get().forEach((el) => {
+            document.querySelector('#pregame-playerlist').innerHTML += `<span onclick="removePlayer(this)">${el.name}</span>`
+        })
     }
 }

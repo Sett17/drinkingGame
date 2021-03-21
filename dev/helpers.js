@@ -1,4 +1,9 @@
 function isMobile() {
+
+    // DBG
+    return true
+    // DBG
+
     let hasTouchScreen = false
     if ('maxTouchPoints' in navigator) {
         hasTouchScreen = navigator.maxTouchPoints > 1

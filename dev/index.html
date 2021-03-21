@@ -18,24 +18,25 @@
 </head>
 
 <body
-    style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
-    unselectable="on" onselectstart="return false">
-    <noscript style="position: fixed;">Javascript has to be enabled!</noscript>
-    <div id="version" onclick="reloadFresh()">holaque</div>
-    <div id="root">
-        <!-- <img src="assets/icon.png" alt="Icon"> -->
-    </div>
+        style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
+        unselectable="on" onselectstart="return false">
+<noscript style="position: fixed;">Javascript has to be enabled!</noscript>
+<div id="version" onclick="reloadFresh()">holaque</div>
+<div id="root">
+    <!-- <img src="assets/icon.png" alt="Icon"> -->
+</div>
 
-    <script src="main.js"></script>
-    <!-- register service worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register('sw.js')
-            })
-        }
-    </script>
-    <!-- end of service worker -->
+<script src="main.js"></script>
+<!-- register service worker -->
+<script>
+    <!--        commented while deving-->
+    // if ('serviceWorker' in navigator) {
+    //     window.addEventListener('load', function () {
+    //         navigator.serviceWorker.register('sw.js')
+    //     })
+    // }
+</script>
+<!-- end of service worker -->
 </body>
 
 </html>
