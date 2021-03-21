@@ -8,7 +8,7 @@ let cardCompo = ''
 fetch('./compos/card.compo').then((res) => res.text()).then((data) => { cardCompo = data })
 const sess = new Session()
 let currPage
-init(window.location.search.match(/(?<=(\?|&)page=)\w+/g))
+init(window.location.search.match(/(?<=([?&])page=)\w+/g))
 
 function init(site) {
     if (site === null) {
@@ -138,7 +138,7 @@ function inpFocusOut() {
 }
 
 function loadCompo(filePath) {
-    if (gameRunning.get() && filePath != playPage) {
+    if (gameRunning.get() && filePath !== playPage) {
         window.history.go(1)
         return
     }

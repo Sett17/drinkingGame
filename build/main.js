@@ -1,15 +1,20 @@
-cacheName='build.21.079.2305'
-document.querySelector('#version').innerHTML=cacheName
-const startMenu='./compos/startmenu.compo'
-const preGame='./compos/pregame.compo'
-const playPage='./compos/play.compo'
-const optPage='./compos/options.compo'
-let cardCompo=''
-fetch('./compos/card.compo').then((res)=>res.text()).then((data)=>{cardCompo=data})
-const sess=new Session()
+cacheName = 'build.21.080.0028'
+document.querySelector('#version').innerHTML = cacheName
+const startMenu = './compos/startmenu.compo'
+const preGame = './compos/pregame.compo'
+const playPage = './compos/play.compo'
+const optPage = './compos/options.compo'
+let cardCompo = ''
+fetch('./compos/card.compo').then((res) => res.text()).then((data) => {
+    cardCompo = data
+})
+const sess = new Session()
 let currPage
 init(window.location.search.match(/(?<=(\?|&)page=)\w+/g))
-function init(site){if(site===null){loadCompo(startMenu)
+
+function init(site) {
+    if (site === null) {
+        loadCompo(startMenu)
 currPage=startMenu
 return}
 switch(site[0]){case'startmenu':gameRunning.turnOff()
