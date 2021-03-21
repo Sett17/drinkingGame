@@ -1,14 +1,11 @@
 function isMobile(){let hasTouchScreen=false
-if('maxTouchPoints'in navigator){hasTouchScreen=navigator.maxTouchPoints>1}else if('msMaxTouchPoints'in navigator){hasTouchScreen=navigator.msMaxTouchPoints>1}else{var mQ=window.matchMedia&&matchMedia('(pointer:coarse)')
-if(mQ&&mQ.media==='(pointer:coarse)'){hasTouchScreen=!!mQ.matches}else if('orientation'in window){hasTouchScreen=true}}
+if('maxTouchPoints'in navigator){hasTouchScreen=navigator.maxTouchPoints>1}else if('msMaxTouchPoints'in navigator){hasTouchScreen=navigator.msMaxTouchPoints>1}else{const mQ=window.matchMedia&&matchMedia('(pointer:coarse)');if(mQ&&mQ.media==='(pointer:coarse)'){hasTouchScreen=!!mQ.matches}else if('orientation'in window){hasTouchScreen=true}}
 return hasTouchScreen}
-function loadCSS(cssURL){return new Promise(function(resolve,reject){var link=document.createElement('link');link.rel='stylesheet';link.href=cssURL;document.head.appendChild(link);link.onload=function(){resolve();console.log('CSS has loaded!');};});}
 class Session extends Map{set(id,value){if(typeof value==='object')value=JSON.stringify(value)
 sessionStorage.setItem(id,value)}
 get(id){const value=sessionStorage.getItem(id)
 try{return JSON.parse(value)}catch(e){return value}}}
 function coerce(num,min,max){if(num<min){return min}else if(num>max){return max}else{return num}}
-function mapRange(inp,inpStart,inpEnd,outpStart,outpEnd){return outpStart+((outpEnd-outpStart)/(inpEnd-inpStart))*(inp-inpStart)}
 let oriX=0,oriY=0,dX=0,dY=40,offsetX=0,offsetY=40,angle=0
 let isMoving=false
 function handleDragStart(e){document.querySelector('#card').style.transition=`all ${turnTime}ms`
@@ -16,10 +13,7 @@ dX=0
 dY=0
 if(!isMoving){oriX=e.touches[0].clientX
 oriY=e.touches[0].clientY}}
-const animTimeRet=100
-const animTimeBounce=80
-const animTimeOut=150
-const animTimeDef=150
+const animTimeRet=100,animTimeBounce=80,animTimeOut=150,animTimeDef=150
 let animTimeIn=100
 if(isMobile){animTimeIn=250}
 function handleDragEnd(e){let zoneSize=[document.body.clientWidth*0.3,document.body.clientHeight*0.33]
@@ -45,9 +39,9 @@ setTimeout(()=>{turn=true},turnTime)
 lastCoord=[e.touches[0].clientX,e.touches[0].clientY]
 dX=e.touches[0].clientX-oriX
 dY=e.touches[0].clientY-oriY
-if(dX>=0){angle=((((coerce(dX,0,200)-0)/(200-0))*(20-0)+0)*Math.PI)/180
-document.querySelector('#play-name').style.opacity=((coerce(dX,0,100)-0)/(100-0))*(0.0-1.0)+1.0}else{angle=(-(((coerce(-dX,0,200)-0)/(200-0))*(20-0)+0)*Math.PI)/180
-document.querySelector('#play-name').style.opacity=((coerce(-dX,0,100)-0)/(100-0))*(0.0-1.0)+1.0}
+if(dX>=0){angle=((((coerce(dX,0,200)-0)/(200))*(20))*Math.PI)/180
+document.querySelector('#play-name').style.opacity=((coerce(dX,0,100)-0)/(100))*(0.0-1.0)+1.0}else{angle=(-(((coerce(-dX,0,200)-0)/(200))*(20))*Math.PI)/180
+document.querySelector('#play-name').style.opacity=((coerce(-dX,0,100)-0)/(100))*(0.0-1.0)+1.0}
 document.querySelector('#card').style.transform=getMatrix(angle,dX+offsetX,dY+offsetY)}}}
 function throwCard(dir,bottom=0){if(!isMoving){let zoneSize=[document.body.clientWidth*0.3,document.body.clientHeight*0.33]
 isMoving=true
@@ -68,11 +62,9 @@ case'ArrowDown':throwCard(0,1)
 break
 default:break}}}
 function getMatrix(angle,tx,ty){return`matrix(${Math.cos(angle)}, ${Math.sin(angle)}, ${-Math.sin(angle)}, ${Math.cos(
-		angle
-	)}, ${tx}, ${ty})`}
-String.prototype.hash=function(){var hash=0
-for(var i=0;i<this.length;i++){var code=this.charCodeAt(i)
-hash=(hash<<5)-hash+code
+        angle
+    )}, ${tx}, ${ty})`}
+String.prototype.hash=function(){let hash=0;for(let i=0;i<this.length;i++){const code=this.charCodeAt(i);hash=(hash<<5)-hash+code
 hash=hash&hash}
 return hash}
 Array.prototype.removeElement=function(obj){const index=this.findIndex((i)=>i.name===obj.name)

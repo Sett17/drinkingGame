@@ -1,4 +1,4 @@
-cacheName = 'build.21.080.0028'
+cacheName = 'build.21.080.2012'
 document.querySelector('#version').innerHTML = cacheName
 const startMenu = './compos/startmenu.compo'
 const preGame = './compos/pregame.compo'
@@ -10,21 +10,29 @@ fetch('./compos/card.compo').then((res) => res.text()).then((data) => {
 })
 const sess = new Session()
 let currPage
-init(window.location.search.match(/(?<=(\?|&)page=)\w+/g))
+init(window.location.search.match(/(?<=([?&])page=)\w+/g))
 
 function init(site) {
     if (site === null) {
         loadCompo(startMenu)
-currPage=startMenu
-return}
-switch(site[0]){case'startmenu':gameRunning.turnOff()
-loadCompo(startMenu)
-currPage=startMenu
-break
-case'pregame':loadCompo(preGame).then((_)=>{if(isMobile()){document.querySelector('#pregame-addPlayerBtn').classList.add('pregame-hidden')}
-updatePlayerList()})
-currPage=preGame
-break
+        currPage = startMenu
+        return
+    }
+    switch (site[0]) {
+        case'startmenu':
+            gameRunning.turnOff()
+            loadCompo(startMenu)
+            currPage = startMenu
+            break
+        case'pregame':
+            loadCompo(preGame).then((_) => {
+                if (isMobile()) {
+                    document.querySelector('#pregame-addPlayerBtn').classList.add('pregame-hidden')
+                }
+                updatePlayerList()
+            })
+            currPage = preGame
+            break
 case'play':cardCounter.get()
 let playerCount=playerList.get().length
 if(playerCount>1){availCards.update(cards)
@@ -77,13 +85,28 @@ function removePlayer(el){playerList.remove({name:el.innerHTML})}
 function inpFocusIn(){if(isMobile()){document.querySelector('#pregame-playerlist').classList.add('pregame-hidden')
 document.querySelector('#pregame-playBtn').classList.add('pregame-hidden')
 document.querySelector('#pregame-addPlayerBtn').classList.remove('pregame-hidden')}}
-function inpFocusOut(){if(isMobile()&&document.querySelector('#pregame-playernameInp').value.trim().length<=1){document.querySelector('#pregame-playerlist').classList.remove('pregame-hidden')
-document.querySelector('#pregame-playBtn').classList.remove('pregame-hidden')
-document.querySelector('#pregame-addPlayerBtn').classList.add('pregame-hidden')
-updatePlayerList()}}
-function loadCompo(filePath){if(gameRunning.get()&&filePath!=playPage){window.history.go(1)
-return}
-return fetch(filePath).then((res)=>res.text()).then((data)=>{document.querySelector('#root').innerHTML=data})}
-function changePage(pageName){window.location.search=`?page=${pageName}`}
+
+function inpFocusOut() {
+    if (isMobile() && document.querySelector('#pregame-playernameInp').value.trim().length <= 1) {
+        document.querySelector('#pregame-playerlist').classList.remove('pregame-hidden')
+        document.querySelector('#pregame-playBtn').classList.remove('pregame-hidden')
+        document.querySelector('#pregame-addPlayerBtn').classList.add('pregame-hidden')
+        updatePlayerList()
+    }
+}
+
+function loadCompo(filePath) {
+    if (gameRunning.get() && filePath !== playPage) {
+        window.history.go(1)
+        return
+    }
+    return fetch(filePath).then((res) => res.text()).then((data) => {
+        document.querySelector('#root').innerHTML = data
+    })
+}
+
+function changePage(pageName) {
+    window.location.search = `?page=${pageName}`
+}
 function updatePlayerList(){if(playerList.get()){document.querySelector('#pregame-playerlist').innerHTML=''
 playerList.get().forEach((el)=>{document.querySelector('#pregame-playerlist').innerHTML+=`<span onclick="removePlayer(this)">${el.name}</span>`})}}

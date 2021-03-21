@@ -130,13 +130,13 @@ function handleDragMove(e) {
             dX = e.touches[0].clientX - oriX
             dY = e.touches[0].clientY - oriY
             if (dX >= 0) {
-                angle = ((((coerce(dX, 0, 200) - 0) / (200 - 0)) * (20 - 0)) * Math.PI) / 180
+                angle = ((((coerce(dX, 0, 200) - 0) / (200)) * (20)) * Math.PI) / 180
                 document.querySelector('#play-name').style.opacity =
-                    ((coerce(dX, 0, 100) - 0) / (100 - 0)) * (0.0 - 1.0) + 1.0
+                    ((coerce(dX, 0, 100) - 0) / (100)) * (0.0 - 1.0) + 1.0
             } else {
-                angle = (-(((coerce(-dX, 0, 200) - 0) / (200 - 0)) * (20 - 0)) * Math.PI) / 180
+                angle = (-(((coerce(-dX, 0, 200) - 0) / (200)) * (20)) * Math.PI) / 180
                 document.querySelector('#play-name').style.opacity =
-                    ((coerce(-dX, 0, 100) - 0) / (100 - 0)) * (0.0 - 1.0) + 1.0
+                    ((coerce(-dX, 0, 100) - 0) / (100)) * (0.0 - 1.0) + 1.0
             }
             document.querySelector('#card').style.transform = getMatrix(angle, dX + offsetX, dY + offsetY)
         }
