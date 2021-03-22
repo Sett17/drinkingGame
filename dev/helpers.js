@@ -262,10 +262,9 @@ const rumbler = {
         }
         return rumbler.isInit
     },
-    doRumble: () => {
-        console.log(rumbler.isInit)
-        if (rumbler.isInit) {
-            navigator.vibrate(150)
+    doRumble: (n) => {
+        if (rumbler.init() && options.rumble.get()) {
+            navigator.vibrate(n === undefined ? 80 : n)
         }
     },
 }

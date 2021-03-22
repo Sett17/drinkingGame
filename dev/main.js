@@ -56,7 +56,7 @@ function init(site) {
                 } else {
                     document.querySelectorAll('.options-wrapperInside').forEach(el => el.style.flexDirection = 'row')
                 }
-                options.updateViews()
+                options.update()
             })
             break
         default:

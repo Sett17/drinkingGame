@@ -2,24 +2,44 @@
     <div id="options-backbtn" class="btn" onclick="changePage('startmenu')">&#171;</div>
 </div>
 <div id="options-switches">
-    <div id="options-difficultyWrapper" class="options-wrapper">
-        <div class="options-wrapperTitle">Spielstimmung</div>
-        <div class="options-wrapperInside">
-            <div class="option-switch">
-                <div class="options-chkbx" data-id="0" onclick="options.difficultyChanged(this.dataset.id)"></div>
-                <div class="options-switchTitle"
-                    onclick="options.difficultyChanged(this.previousSibling.previousSibling.dataset.id)">Chill</div>
+<div id="options-difficultyWrapper" class="options-wrapper">
+    <div class="options-wrapperTitle">Spielstimmung</div>
+    <div class="options-wrapperInside">
+        <div class="option-switch">
+            <div class="options-chkbx" data-id="0" onclick="options.difficulty.changed(this.dataset.id)"></div>
+            <div class="options-switchTitle"
+                 onclick="options.difficulty.changed(this.previousSibling.previousSibling.dataset.id)">Chill
             </div>
-            <div class="option-switch">
-                <div class="options-chkbx" data-id="1" onclick="options.difficultyChanged(this.dataset.id)"></div>
-                <div class="options-switchTitle"
-                    onclick="options.difficultyChanged(this.previousSibling.previousSibling.dataset.id)">Geht ab</div>
+        </div>
+        <div class="option-switch">
+            <div class="options-chkbx" data-id="1" onclick="options.difficulty.changed(this.dataset.id)"></div>
+            <div class="options-switchTitle"
+                 onclick="options.difficulty.changed(this.previousSibling.previousSibling.dataset.id)">Geht ab
             </div>
-            <div class="option-switch">
-                <div class="options-chkbx" data-id="2" onclick="options.difficultyChanged(this.dataset.id)"></div>
-                <div class="options-switchTitle"
-                    onclick="options.difficultyChanged(this.previousSibling.previousSibling.dataset.id)">Absturz</div>
+        </div>
+        <div class="option-switch">
+            <div class="options-chkbx" data-id="2" onclick="options.difficulty.changed(this.dataset.id)"></div>
+            <div class="options-switchTitle"
+                 onclick="options.difficulty.changed(this.previousSibling.previousSibling.dataset.id)">Absturz
             </div>
         </div>
     </div>
+</div>
+<div id="options-rumbleWrapper" class="options-wrapper">
+    <div class="options-wrapperTitle">Vibrationen?</div>
+    <div class="options-wrapperInside">
+        <div class="option-switch">
+            <div class="options-chkbx" data-id="0" onclick="options.rumble.changed(this.dataset.id)"></div>
+            <div class="options-switchTitle"
+                 onclick="options.rumble.changed(this.previousSibling.previousSibling.dataset.id)">Klar
+            </div>
+        </div>
+        <div class="option-switch">
+            <div class="options-chkbx" data-id="1" onclick="options.rumble.changed(this.dataset.id)"></div>
+            <div class="options-switchTitle"
+                 onclick="options.rumble.changed(this.previousSibling.previousSibling.dataset.id)">Ne
+            </div>
+        </div>
+    </div>
+</div>
 </div>
