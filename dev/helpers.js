@@ -252,6 +252,21 @@ function shareRoutine() {
     }
 }
 
+const rumbler = {
+    isInit: false,
+    rumblePossible: false,
+    init: () => {
+        if (!rumbler.isInit) {
+            console.log(navigator)
+            console.log('vibrate' in navigator)
+            // if ()
+        }
+    },
+    doRumble: () => {
+
+    },
+}
+
 const gameRunning = {
     get: () => {
         return sess.get('gameRunning')
