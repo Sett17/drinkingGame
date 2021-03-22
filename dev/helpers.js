@@ -257,13 +257,16 @@ const rumbler = {
     rumblePossible: false,
     init: () => {
         if (!rumbler.isInit) {
-            console.log(navigator)
-            console.log('vibrate' in navigator)
-            // if ()
+            rumbler.rumblePossible = ('vibrate' in navigator)
+            rumbler.isInit = true
         }
+        return rumbler.isInit
     },
     doRumble: () => {
-
+        console.log(rumbler.isInit)
+        if (rumbler.isInit) {
+            navigator.vibrate(150)
+        }
     },
 }
 
