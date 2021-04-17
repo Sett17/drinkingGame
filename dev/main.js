@@ -100,7 +100,7 @@ function addCard(card) {
 
 function makeCard(use) {
     let card = cardCompo
-    const difficulty = options.getDifficulty()
+    const difficulty = options.difficulty.get()
     const mul = difficulty === 0 ? .5 : difficulty === 1 ? 1 : 2.24
     try {
         if (cardCounter.get() === -1) {

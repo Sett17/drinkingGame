@@ -75,6 +75,9 @@ function reloadFresh(){sessionStorage.clear()
 navigator.serviceWorker.getRegistration().then(function(reg){if(reg){reg.unregister().then(function(){location.reload()})}else{location.reload()}})}
 function shareRoutine(){try{navigator.share({url:'https://drinkingapp-4376b.web.app/',title:'Trink! Trink!'}).then((d)=>console.log(d))}catch(e){console.log('not on a smartphone, copying to clipbaord instead of sharing')
 try{navigator.clipboard.writeText('https://drinkingapp-4376b.web.app/').then((d)=>{alert('In die Zwischenablage kopiert')})}catch(e){console.log(e)}}}
+const rumbler={isInit:false,rumblePossible:false,init:()=>{if(!rumbler.isInit){rumbler.rumblePossible=('vibrate'in navigator)
+rumbler.isInit=true}
+return rumbler.isInit},doRumble:(n)=>{if(rumbler.init()&&options.rumble.get()){navigator.vibrate(n===undefined?80:n)}},}
 const gameRunning={get:()=>{return sess.get('gameRunning')},turnOn:()=>{console.log('game is now running')
 sess.set('gameRunning',true)},turnOff:()=>{console.log('game is now stopped')
 sess.set('gameRunning',false)},}
