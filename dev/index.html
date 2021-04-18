@@ -28,13 +28,13 @@
 
 <script src="main.js"></script>
 <!-- register service worker -->
+<!--        commented while deving-->
 <script>
-    <!--        commented while deving-->
-    // if ('serviceWorker' in navigator) {
-    //     window.addEventListener('load', function () {
-    //         navigator.serviceWorker.register('sw.js')
-    //     })
-    // }
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('sw.js')
+        })
+    }
 </script>
 <!-- end of service worker -->
 </body>

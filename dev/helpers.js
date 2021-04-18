@@ -105,11 +105,13 @@ function handleDragEnd(e) {
         if (gameRunning.get()) {
             setTimeout(() => {
                 newCard()
+                rumbler.doRumble()
                 isMoving = false
             }, animTimeOut * 1.5)
         } else {
             setTimeout(() => {
                 changePage('startmenu')
+                rumbler.doRumble()
             }, animTimeOut * 2)
         }
     }
@@ -331,7 +333,7 @@ const cardCounter = {
     cardCnt: 0,
     get: () => {
         cardCounter.cardCnt = cardCounter.cardCnt
-        console.log(cardCounter.cardCnt)
+        // console.log(cardCounter.cardCnt)
         return cardCounter.cardCnt > cardCounter.limit ? -1 : cardCounter.cardCnt
     },
     incr: () => {
