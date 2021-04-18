@@ -8,6 +8,14 @@
     ],
     "rewrites": [
       {
+        "source": "!manifest.webmanifest",
+        "destination": "/index.html"
+      },
+      {
+        "source": "!robots.txt",
+        "destination": "/index.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

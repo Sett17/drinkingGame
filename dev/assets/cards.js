@@ -225,7 +225,7 @@ const cards = [
         "set": "Virus"
     },
     {
-        "title": "Numer 17 mit süß-sauer",
+        "title": "Nummer 17 mit süß-sauer",
         "text": "Gerichte die man bei jedem Asiaten bekommen kann. [NAME1] startet! Wem als erstes nix mehr enifällt trinkt!",
         "sips": 3,
         "all": true,
