@@ -30,7 +30,9 @@ document.querySelector('#card').style.transform=getMatrix(angle,dX,dY+zoneSize[1
 document.querySelector('#card').style.transition=`all ${animTimeOut}ms`
 document.querySelector('#card').style.transform=getMatrix(angle,dX+Math.sign(dX)*zoneSize[0]*2.2,dY+offsetY)}
 if(gameRunning.get()){setTimeout(()=>{newCard()
-isMoving=false},animTimeOut*1.5)}else{setTimeout(()=>{changePage('startmenu')},animTimeOut*2)}}}
+rumbler.doRumble()
+isMoving=false},animTimeOut*1.5)}else{setTimeout(()=>{changePage('startmenu')
+rumbler.doRumble()},animTimeOut*2)}}}
 let lastCoord=[0,0]
 let turnTime=5
 let turn=true
@@ -80,7 +82,14 @@ rumbler.isInit=true}
 return rumbler.isInit},doRumble:(n)=>{if(rumbler.init()&&options.rumble.get()){navigator.vibrate(n===undefined?80:n)}},}
 const gameRunning={get:()=>{return sess.get('gameRunning')},turnOn:()=>{console.log('game is now running')
 sess.set('gameRunning',true)},turnOff:()=>{console.log('game is now stopped')
-sess.set('gameRunning',false)},}
+sess.set('gameRunning',false)},askNextOpportunity:()=>{sess.set('askNextOpportunity',true)},hasToAsk:()=>{return(sess.get('askNextOpportunity')===true)},ask:()=>{const overlay=document.querySelector('#overlay')
+overlay.style.visibility='visible'
+overlay.style.opacity='1.0'
+sess.set('askNextOpportunity',false)},removeAsk:()=>{const overlay=document.querySelector('#overlay')
+overlay.style.opacity='0.0'
+overlay.style.visibility='hidden'
+sess.set('askNextOpportunity',false)},close:()=>{gameRunning.turnOff()
+init(null)}}
 const availCards={deck:undefined,get:()=>{availCards.deck=availCards.deck||sess.get('availCards')||[]
 return availCards.deck},update:(par)=>{if(!gameRunning.get()){availCards.deck=par
 sess.set('availCards',availCards.deck)}else{availCards.deck=sess.get('availCards')}},remove:(el)=>{availCards.deck.removeElement(el)
@@ -94,6 +103,5 @@ sess.set('playerList',playerList.players)
 updatePlayerList()},rng:()=>{playerList.players=playerList.players||sess.get('playerList')||[]
 return playerList.players[Math.floor(Math.random()*playerList.players.length)].name},}
 const cardCounter={limit:25,cardCnt:0,get:()=>{cardCounter.cardCnt=cardCounter.cardCnt
-console.log(cardCounter.cardCnt)
 return cardCounter.cardCnt>cardCounter.limit?-1:cardCounter.cardCnt},incr:()=>{cardCounter.cardCnt+=1
 sess.set('cardCnt',cardCounter.cardCnt)},}

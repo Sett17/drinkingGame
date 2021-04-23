@@ -10,6 +10,9 @@ fetch('./compos/card.compo').then((res) => res.text()).then((data) => {
 })
 const sess = new Session()
 let currPage
+
+console.log('ich vergess bestimmt hier was rauszunehmen, also viel spaß beim dbg nachrichten lesen ¯\_(ツ)_/¯')
+
 init(window.location.search.match(/(?<=([?&])page=)\w+/g))
 
 function init(site) {
@@ -42,6 +45,9 @@ function init(site) {
                     setTimeout(() => {
                         gameRunning.turnOn()
                         newCard()
+                        if (gameRunning.hasToAsk()){
+                            gameRunning.ask()
+                        }
                     }, 20)
                 })
                 currPage = playPage
@@ -91,7 +97,7 @@ function addCard(card) {
         setTimeout(() => {
             document.querySelector('#card').style.transform = `matrix(1, 0, 0, 1, 0, ${offsetY})`
             document.querySelector('#card').style.opacity = '1.0'
-            setInterval(() => {
+            setTimeout(() => {
                 addInteraction(document.querySelector('#card'))
             }, animTimeIn)
         }, 20)
@@ -168,6 +174,7 @@ function inpFocusOut() {
 function loadCompo(filePath) {
     if (gameRunning.get() && filePath !== playPage) {
         window.history.go(1)
+        gameRunning.askNextOpportunity()
         return
     }
     return fetch(filePath).then((res) => res.text()).then((data) => {

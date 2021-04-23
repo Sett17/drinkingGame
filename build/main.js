@@ -1,4 +1,4 @@
-cacheName='build.21.108.1132'
+cacheName='build.21.109.1528'
 document.querySelector('#version').innerHTML=cacheName
 const startMenu='./compos/startmenu.compo'
 const preGame='./compos/pregame.compo'
@@ -8,6 +8,7 @@ let cardCompo=''
 fetch('./compos/card.compo').then((res)=>res.text()).then((data)=>{cardCompo=data})
 const sess=new Session()
 let currPage
+console.log('ich vergess bestimmt hier was rauszunehmen, also viel spaß beim dbg nachrichten lesen ¯\_(ツ)_/¯')
 init(window.location.search.match(/(?<=([?&])page=)\w+/g))
 function init(site){if(site===null){loadCompo(startMenu)
 currPage=startMenu
@@ -24,7 +25,8 @@ case'play':cardCounter.get()
 let playerCount=playerList.get().length
 if(playerCount>1){availCards.update(cards)
 loadCompo(playPage).then((_)=>{setTimeout(()=>{gameRunning.turnOn()
-newCard()},20)})
+newCard()
+if(gameRunning.hasToAsk()){gameRunning.ask()}},20)})
 currPage=playPage}else{changePage('pregame')}
 break
 case'options':loadCompo(optPage).then(_=>{if(isMobile()){document.querySelectorAll('.options-wrapperInside').forEach(el=>el.style.flexDirection='column')}else{document.querySelectorAll('.options-wrapperInside').forEach(el=>el.style.flexDirection='row')}
@@ -47,7 +49,7 @@ document.querySelector('#card').style.opacity='0.01'
 document.querySelector('#card').style.transition=`all ${animTimeIn}ms`
 setTimeout(()=>{document.querySelector('#card').style.transform=`matrix(1, 0, 0, 1, 0, ${offsetY})`
 document.querySelector('#card').style.opacity='1.0'
-setInterval(()=>{addInteraction(document.querySelector('#card'))},animTimeIn)},20)}}
+setTimeout(()=>{addInteraction(document.querySelector('#card'))},animTimeIn)},20)}}
 function makeCard(use){let card=cardCompo
 const difficulty=options.difficulty.get()
 const mul=difficulty===0?.5:difficulty===1?1:2.24
@@ -78,6 +80,7 @@ document.querySelector('#pregame-playBtn').classList.remove('pregame-hidden')
 document.querySelector('#pregame-addPlayerBtn').classList.add('pregame-hidden')
 updatePlayerList()}}
 function loadCompo(filePath){if(gameRunning.get()&&filePath!==playPage){window.history.go(1)
+gameRunning.askNextOpportunity()
 return}
 return fetch(filePath).then((res)=>res.text()).then((data)=>{document.querySelector('#root').innerHTML=data})}
 function changePage(pageName){window.location.search=`?page=${pageName}`}

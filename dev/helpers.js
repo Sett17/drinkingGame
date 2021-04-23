@@ -264,9 +264,9 @@ const rumbler = {
         }
         return rumbler.isInit
     },
-    doRumble: (n) => {
+    doRumble: (mul = 1) => {
         if (rumbler.init() && options.rumble.get()) {
-            navigator.vibrate(n === undefined ? 80 : n)
+            navigator.vibrate(80 * mul)
         }
     },
 }
@@ -283,6 +283,31 @@ const gameRunning = {
         console.log('game is now stopped')
         sess.set('gameRunning', false)
     },
+    askNextOpportunity: () => {
+        sess.set('askNextOpportunity', true)
+    },
+    hasToAsk: () => {
+        return (sess.get('askNextOpportunity') === true)
+    },
+    ask: () => {
+        rumbler.doRumble()
+        const overlay = document.querySelector('#overlay')
+        overlay.style.visibility = 'visible'
+        overlay.style.opacity = '1.0'
+        sess.set('askNextOpportunity', false)
+    },
+    removeAsk: () => {
+        rumbler.doRumble()
+        const overlay = document.querySelector('#overlay')
+        overlay.style.opacity = '0.0'
+        overlay.style.visibility = 'hidden'
+        sess.set('askNextOpportunity', false)
+    },
+    close: () => {
+        rumbler.doRumble(2.5)
+        gameRunning.turnOff()
+        init(null)
+    }
 }
 const availCards = {
     deck: undefined,

@@ -261,7 +261,7 @@ const cards = [
     },
     {
         "title": "Uuhhhhh",
-        "text": "Trink so viele Schlücke wie es schöne Brüste es im gibt",
+        "text": "Trink so viele Schlücke wie es schöne Brüste im Raum gibt",
         "sips": -1,
         "all": false,
         "set": "Pflicht"
